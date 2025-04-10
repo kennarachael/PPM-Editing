@@ -17,7 +17,7 @@ class PPMimage:
         self.attributes = self.find_attributes(image)
 
         image = image[3:]
-        image = self.format(image)
+        image = self.format(image[4:])
 
         return image
         
@@ -29,8 +29,23 @@ class PPMimage:
     
     def format(self,file):
         list = []
-        for num in file:
-            pass
+        count = 0
+        pix_count = 0
+        for val in file:
+            row = []
+            pixel = []
+            pixel += val
+            #after 3, void pixel list after adding it to row
+
+            #below checks if the row is complete based on rows amount given (attribute)
+            if count == self.attributes[2]:
+                count = 0
+                list.append[row]
+                row = []
+            count +=1
+
+
+
 
 
 
