@@ -3,11 +3,18 @@ from itertools import batched
 class PPMimage:
     
     def __init__(self, infile, outfile):
-        self.input_file_name = infile
         self.output_file_name = outfile
+        self.image_copy = self.copy(infile)
+
         self.image = self.setup(infile)
-        self.attributes = self.find_attributes(self.image) #tuple
+        self.attributes = () #tuple
     
+
+    def copy(self,file):
+        open(file)
+        asdf = file.read()
+        image = asdf.split(" ")
+
 
     def setup(self,file):
         #read file and turn into list
@@ -29,28 +36,34 @@ class PPMimage:
     
     def format(self,file):
         list = []
-        count = 0
-        pix_count = 0
+        
         for val in file:
             row = []
             pixel = []
             pixel += val
             #after 3, void pixel list after adding it to row
+            if len(pixel) == 3:
+                row.append(pixel)
+                pixel = []
 
             #below checks if the row is complete based on rows amount given (attribute)
-            if count == self.attributes[2]:
-                count = 0
+            if len(row) == self.attributes[2]:
                 list.append[row]
                 row = []
-            count +=1
-
-
-
+        
+        return list
 
 
 
     def negate_red(self,file):
-        pass
+
+        #make a copy of self.image first and only makes changes to the copy
+        for row in self.image:
+            for pixel in row:
+                red = pixel[0]
+                neg_red = reversed(red)
+                red = neg_red
+        return self.image
 
     def flip_horizontal(self, file):
         pass
@@ -63,4 +76,5 @@ class PPMimage:
 
 
 
-        
+c = PPMimage("tinypix.ppm","out.ppm")
+c.format()
