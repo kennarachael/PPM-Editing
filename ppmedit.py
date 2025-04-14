@@ -1,32 +1,32 @@
-from itertools import batched
 
 class PPMimage:
     
-    def __init__(self, infile, outfile):
+    def __init__(self, file, outfile):
+        self.infile = open(file, "r")
         self.output_file_name = outfile
-        self.image_copy = self.copy(infile)
+        self.image_copy = self.infile
 
-        self.image = self.setup(infile)
+        self.image = self.setup(self.infile)
         self.attributes = () #tuple
     
-
+    """
     def copy(self,file):
         open(file)
         asdf = file.read()
         image = asdf.split(" ")
-
+    """
 
     def setup(self,file):
         #read file and turn into list
-        open(file)
-        asdf = file.read()
-        image = asdf.split(" ")
-        self.attributes = self.find_attributes(image)
+        
+        nimage = file.readlines()
+        
+        self.attributes = self.find_attributes(nimage)
 
-        image = image[3:]
-        image = self.format(image[4:])
+        #nimage = nimage[3:]
+        #nimage = self.format(nimage[4:])
 
-        return image
+        return nimage
         
 
     def find_attributes(self,file):
@@ -77,4 +77,5 @@ class PPMimage:
 
 
 c = PPMimage("tinypix.ppm","out.ppm")
-c.format()
+print(c.image)
+print(c.attributes)
