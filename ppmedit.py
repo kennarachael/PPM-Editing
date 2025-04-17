@@ -1,3 +1,4 @@
+
 class PPMimage:
     
     def __init__(self, file, outfile):
