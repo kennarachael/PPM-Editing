@@ -2,48 +2,45 @@
 class PPMimage:
     
     def __init__(self, file, outfile):
-        self.infile = open(file, "r")
+        
         self.output_file_name = outfile
-        self.image_copy = self.infile
-
-        self.image = self.setup(self.infile)
-        self.attributes = () #tuple
+        self.image = self.setup(file)
+        self.attributes = [] #list
     
-    """
-    def copy(self,file):
-        open(file)
-        asdf = file.read()
-        image = asdf.split(" ")
-    """
-    def out(self,file):
-        pass
 
+    def out(self,file):
+        
+        print(self.attributes[0] + "\n" + self.attributes[1] + " " + self.attributes[2] + "\n" + self.attributes[3]+ "\n")
+        for row in file:
+            for pixel in row:
+                for val in pixel:
+                    print(val + " ")
+            print("\n") 
 
 
 
 
     def setup(self,file):
         #read file and turn into list
-        
-        nimage = file.read()
-        image = nimage.split("\n"," ")
-        index = 0
-        for val in image:
-            image[index] = val.strip("\t")
-            index +=1
+        #infile = open(file, "r")
+        #nimage = infile.read()
+        image = file.split() #image = nimage.split()
         
         self.attributes = self.find_attributes(image)
 
-        nimage = nimage[3:]
+        nimage = image[3:]
         nimage = self.format(nimage)
 
-        return image
+        return nimage
         
 
     def find_attributes(self,file):
-        magic_num, columns, rows, max_colour = file[0], file[1], file[2], file[3]
-
-        return magic_num,columns,rows,max_colour
+        magic_num = file[0] 
+        columns = file[1]
+        rows = file[2]
+        max_colour = file[3]
+        
+        return [magic_num, columns, rows, max_colour]
     
 
     def copy(self,file):
@@ -64,8 +61,8 @@ class PPMimage:
                 row.append(pixel)
                 pixel = []
 
-            #below checks if the row is complete based on rows amount given (attribute)
-            if len(row) == self.attributes[2]:
+            #below checks if the row is complete based on columns amount given (attribute)
+            if len(row) == self.attributes[1]:
                 list.append[row]
                 row = []
         
@@ -121,5 +118,13 @@ class PPMimage:
 
 
 c = PPMimage("tinypix.ppm","out.ppm")
-print(c.image)
-print(c.attributes)
+#print(c.image)
+#print(c.attributes)
+
+print(c.setup("P3\
+    4 4\
+    255\
+    0  0  0   100 0  0       0  0  0    255   0 255\
+    0  0  0    0 255 175     0  0  0     0    0  0\
+    0  0  0    0  0  0       0 15 175    0    0  0\
+    255 0 255  0  0  0       0  0  0    255  255 255"))
